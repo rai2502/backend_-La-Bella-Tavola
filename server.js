@@ -15,20 +15,20 @@
 //  App Mobile
 //     │
 //     ▼
-//  [cors()]               ← Middleware 1: Libera acesso de outras origens
+//  [cors()]              ← Middleware 1: Libera acesso de outras origens
 //     │
 //     ▼
-//  [express.json()]       ← Middleware 2: Transforma o body em JSON
+//  [express.json()]      ← Middleware 2: Transforma o body em JSON
 //     │
 //     ▼
-//  [logger]               ← Middleware 3: Anota a requisição no terminal
+//  [logger]              ← Middleware 3: Anota a requisição no terminal
 //     │
 //     ▼
-//  Rota correta           ← A requisição chega na rota certa
+//  Rota correta          ← A requisição chega na rota certa
 //  (ex: GET /api/produtos)
 //     │
 //     ▼ (se der erro)
-//  [errorHandler]         ← Captura qualquer erro das rotas
+//  [errorHandler]        ← Captura qualquer erro das rotas
 //     │
 //     ▼
 //  Resposta enviada ao App Mobile
@@ -84,22 +84,20 @@ app.use(logger);
 // Rota raiz — útil para verificar se o servidor está no ar.
 // Acesse: http://localhost:3000
 app.get('/', (req, res) => {
-    res.json({ mensagem: '🍝 Bem-vindo à API do Sapori D Itália' });
+    res.json({ mensagem: '🍣 Bem-vindo à API La Bella Tavola' });
 });
 
 
 // ─── 6. Importação e Registro das Rotas ───────────────────────
 // Importamos os arquivos de rota da pasta /routes
-const rotasCategorias = require('./routers/categorias');
-const rotasProdutos = require('./routers/produtos');
-const rotasPedidos = require('./routes/pedidos');
+const rotasCategorias = require('./routes/categorias');
+const rotasProdutos = require('./routes/produtos');
 
 // app.use('prefixo', router) registra o router com um prefixo de URL.
 // Toda rota definida dentro de categorias.js ficará em /api/categorias/...
 // Toda rota definida dentro de produtos.js ficará em /api/produtos/...
 app.use('/api/categorias', rotasCategorias);
 app.use('/api/produtos', rotasProdutos);
-app.use('/api/pedidos', rotasPedidos);
 
 
 // =============================================================
@@ -113,7 +111,7 @@ app.use('/api/pedidos', rotasPedidos);
 app.use((req, res, next) => {
     res.status(404).json({
         sucesso: false,
-        mensagem: `Rota '${req.url}' não encontrada na API da Italia. Verifique a URL e tente novamente.`
+        mensagem: `Rota '${req.url}' não encontrada na API da La Bella Tavola.`
     });
 });
 
@@ -138,21 +136,25 @@ const PORTA = process.env.PORT || 3000;
 app.listen(PORTA, () => {
     console.log('');
     console.log('🚀 ================================');
-    console.log('🚀 Servidor rodando!');
-    console.log(`🚀 Acesse :${PORTA}`);
+    console.log(`🚀 Servidor rodando!`);
+    console.log(`🚀 Porta local: ${PORTA}`);
     console.log('🚀 ================================');
     console.log('');
     console.log('📋 Rotas disponíveis:');
-    console.log(`   GET    ${PORTA}/api/categorias`);
-    console.log(`   POST  ${PORTA}/api/categorias`);
-    console.log(`   GET   ${PORTA}/api/produtos`);
-    console.log(`   GET    ${PORTA}/api/produtos/:id`);
-    console.log(`   POST   ${PORTA}/api/produtos`);
-    console.log(`   PUT    ${PORTA}/api/produtos/:id`);
-    console.log(`   DELETE ${PORTA}/api/produtos/:id`);
+    console.log(`   GET    /api/categorias`);
+    console.log(`   POST   /api/categorias`);
+    console.log(`   GET    /api/produtos`);
+    console.log(`   GET    /api/produtos/:id`);
+    console.log(`   POST   /api/produtos`);
+    console.log(`   PUT    /api/produtos/:id`);
+    console.log(`   DELETE /api/produtos/:id`);
+    console.log(`   GET    /api/pedidos`);
+    console.log(`   POST   /api/pedidos`);
     console.log('');
     console.log('💣 Rota de teste de erro:');
-    console.log(`   GET    ${PORTA}/api/produtos/erro-teste`);
+    console.log(`   GET    /api/produtos/erro-teste`);
     console.log('');
 });
-module.exports = app; 
+
+
+module.exports = app;
